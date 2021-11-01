@@ -13,6 +13,7 @@ public:
         // perform modification under the lock
         std::lock_guard<std::mutex> uLock(_mutex);
         _queue.push_back(std::move(msg));
+        //std::cout << "send: " << _queue.size() << "\n";
         _condition.notify_one();
     }
 
@@ -22,6 +23,7 @@ public:
 
         T msg = std::move(_queue.back());
         _queue.pop_back();
+        //std::cout << "receive: " << _queue.size() << "\n";
         return msg;
     }
 

@@ -33,8 +33,13 @@ void Detector::Run(){
     _futures.emplace_back(std::async(std::launch::async, &Detector::Display, this));
 
     cv::Mat frame;
-    while (_is_running)
+    while(1)
     {
+        //std::unique_lock<std::mutex> uLock(_mtx);
+        uLock.lock();
+        if( !_is_running ) {break;}
+        uLock.unlock();
+
         _capture.read(frame);
         if(frame.empty()) {
             std::cout << "No captured frame -- Break! \n";
@@ -63,9 +68,11 @@ std::vector<cv::Rect> Detector::Detect(const cv::Mat& frame){
 
 void Detector::Display(){
     std::cout << "Display worker thread #" << std::this_thread::get_id() << "\n";
+    cv::namedWindow("Face detection Visualization");
 
     while (true)
     {
+        //std::this_thread::sleep_for(std::chrono::milliseconds(1));
         std::pair<cv::Mat, std::vector<cv::Rect>> message = _display_msg_queue.receive();
 
         for (size_t i = 0; i < message.second.size(); i++) {
