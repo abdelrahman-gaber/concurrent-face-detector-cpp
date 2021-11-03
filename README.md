@@ -8,8 +8,10 @@ There are three main threads running in paralell:
 2. Reading from the frame buffer once an image is available, and apply face detection with OpenCV [Multi-scale Face Detector](https://docs.opencv.org/3.4/db/d28/tutorial_cascade_classifier.html), then add the results to a display buffer (another message queue). 
 3. Reading from the display buffer once a detection result is available, and overlay the detection bounding boxes on top of the frame, then display it. 
 
-Note that the main goal is not to have the most accurate face detector, as there are many state-of-the-art face detection models better than the basic OpenCV face detector, but the goal is to apply C++ memory management and concurrency concepts to optimize the processing time for the whole cycle of (Catpture -> Detect -> Display). If you want to have a more accurate face detector, you can simply add your detector to the Function [`Detect()`](src/Detector.cpp#L95) under class `Detector`. 
+Note that the main goal is not to have the most accurate face detector, as there are many state-of-the-art face detection models better than the basic OpenCV face detector,
+but the goal is to apply C++ memory management and concurrency concepts to optimize the processing time for the whole cycle of (Catpture -> Detect -> Display). If you want to have a more accurate face detector, you can simply add your detector to the Function [`Detect()`](src/Detector.cpp#L95) under class `Detector`. 
 
+<img src="data/concurrent_face_det.gif"/>
 
 All the cpp and header files are under `src/` directory, and organized as follows:
 1. `main.cpp` starts the application, get user arguments and pass them to the `Detector::Run()` method to start the detection loop and launch new threads for differnt tasks.
