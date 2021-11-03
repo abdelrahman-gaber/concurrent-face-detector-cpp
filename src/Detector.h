@@ -22,19 +22,24 @@ public:
     Detector(cv::String&, int);
     ~Detector();
     void Run();
+    
+
+private:
+    void LoadModel(cv::String&);
+    void Capture();
     std::vector<cv::Rect> Detect(const cv::Mat&);
     void Display();
 
-private:
-    cv::CascadeClassifier _face_cascade;
-    cv::VideoCapture _capture;
     int _cam_id;
     bool _is_running;
+    cv::VideoCapture _capture;
+    cv::CascadeClassifier _face_cascade;
     MessageQueue< std::pair<cv::Mat, std::vector<cv::Rect>> > _display_msg_queue;
+    MessageQueue< std::pair<cv::Mat, cv::Mat> > _frame_buffer;
     std::vector<std::future<void>> _futures;
     std::mutex _mtx;
 
-    void LoadModel(cv::String&);
+    const int MAX_SIZE_FRAME_BUFFER = 2;
 };
 
 #endif
