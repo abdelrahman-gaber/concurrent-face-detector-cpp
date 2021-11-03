@@ -1,7 +1,6 @@
 # Concurrent Face Detector in C++
 
 This is my final Project for the [Udacity C++ Nanodegree Program](https://www.udacity.com/course/c-plus-plus-nanodegree--nd213). 
-
 This project captures video stream from a webcam, detect faces, and visualize the detection as bounding boxes around the faces in each frame.
 The main idea is to use concurrency to allow for real-time detection. 
 There are three main threads running in paralell:
@@ -9,6 +8,7 @@ There are three main threads running in paralell:
 2. Reading from the frame buffer once an image is available, and apply face detection with OpenCV [Multi-scale Face Detector](https://docs.opencv.org/3.4/db/d28/tutorial_cascade_classifier.html), then add the results to a display buffer (another message queue). 
 3. Reading from the display buffer once a detection is available, and visualize the detection bounding boxes on the frame. 
 
+Note that the main goal is not to have the most accurate face detector, as there are many state-of-the-art face detection models better than the basic OpenCV face detector, but the goal is to apply C++ memory management and concurrency concepts to optimize the processing time for the whole cycle of (Catpture -> Detect -> Display). If you want to have a more accurate face detector, you can simply add your detector to the Function [Detect()](src/Detector.cpp#L95) under class Detector. 
 
 
 ## Dependencies for Running Locally
